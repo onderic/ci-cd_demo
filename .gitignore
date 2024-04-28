@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django related
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+media
+staticfiles
+
+# Virtual environment
+venv/
+.env
+
+# IDEs
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# macOS
+.DS_Store
+
+# Compiled Python files
+*.pyc
+__pycache__/
+
+# Ignore the local settings file
+*/local_settings.py
+
+# Ignore the secret key file
+*/secret_key.py
+
+# Ignore migration files
+*/migrations/*.py
+*/migrations/*.pyc
+
+# Ignore coverage reports
+.coverage

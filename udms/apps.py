@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class DiscplinaryConfig(AppConfig):
+class UdmsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'discplinary'
+    name = 'udms'

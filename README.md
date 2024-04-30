@@ -1,2 +1,1 @@
-# cynthia-snr-project
-# cynthia-snr-project
+#ci/cd demo

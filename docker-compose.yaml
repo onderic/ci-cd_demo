@@ -9,7 +9,7 @@ services:
     volumes:
       - static_volume:/home/app/web/staticfiles
 
-    image: manulangat/auto-deploy-do-github-actions:latest
+    image: onderio/udms-deploy:tagname
     ports:
       - "8000:8000"
     networks:

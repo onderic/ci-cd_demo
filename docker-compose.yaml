@@ -2,22 +2,23 @@ version: '3.8'
 
 services:
   web:
-    build: ./
-    command: python manage.py runserver 0.0.0.0:8000
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    command:  gunicorn do-guide.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - ./:/
+      - static_volume:/home/app/web/staticfiles
+
+    image: manulangat/auto-deploy-do-github-actions:latest
     ports:
-      - 8000:8000
-    env_file:
-      - ./.env.dev
-  db:
-    image: postgres:15
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_USER=hello_django
-      - POSTGRES_PASSWORD=hello_django
-      - POSTGRES_DB=hello_django_dev
+      - "8000:8000"
+    networks:
+      - ci-cd-django-app
+  
 
 volumes:
-  postgres_data:
+  static_volume:
+  
+networks:
+  ci-cd-django-app:
+    

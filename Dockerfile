@@ -1,25 +1,50 @@
-# pull official base image
-FROM python:3.11.4-slim-buster
 
-# set work directory
-WORKDIR /
+# FROM python:3.9.6-alpine 
+FROM python:3.10.1-slim-buster 
 
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# WORKDIR 
+ENV APP_HOME=/app
+RUN mkdir $APP_HOME
+RUN mkdir $APP_HOME/staticfiles
+WORKDIR $APP_HOME
 
-# install dependencies
-RUN pip install --upgrade pip
-COPY ./requirements.txt .
-RUN pip install -r requirements.txt
 
-# copy entrypoint.sh
-COPY ./entrypoint.sh .
-RUN sed -i 's/\r$//g' /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+LABEL maintainer='onderi'
 
-# copy project
-COPY . .
 
-# run entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+LABEL description="ci pipeline to digital oceans" 
+
+ENV PYTHONDONTWRITEBYTECODE=1
+
+ENV PYTHONUNBUFFERED=1  
+
+ENV DEBUG=False
+
+ENV ENVIRONMENT=staging
+
+RUN apt-get update \
+    && apt-get install -y build-essential \
+    && apt-get install -y libpq-dev \
+    && apt-get install -y gettext \
+    && apt-get -y install netcat gcc postgresql \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install --upgrade pip 
+
+COPY requirements.txt $APP_HOME/requirements.txt 
+
+COPY . $APP_HOME/
+RUN pip3 install -r $APP_HOME/requirements.txt 
+
+
+
+COPY /entrypoint /entrypoint
+RUN sed -i 's/\r$//g' /entrypoint
+RUN chmod +x /entrypoint
+
+
+
+
+
+ENTRYPOINT ["/entrypoint"]
